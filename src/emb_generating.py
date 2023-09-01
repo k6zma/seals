@@ -36,7 +36,9 @@ def imgs_to_emb(img_path):
         elif 'test' in img_path:
             image_names.append(img[13:])
 
-        image = preprocess(Image.open(img)).unsqueeze(0).to(device)
+        img = np.array(Image.open(img))
+        img = img[:img.shape[0]//2]
+        image = preprocess(Image.fromarray(img)).unsqueeze(0).to(device)
 
         with torch.no_grad():
             image_features.append(model.encode_image(image)[0].tolist())
